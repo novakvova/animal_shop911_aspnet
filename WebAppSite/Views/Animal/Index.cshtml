@@ -3,6 +3,7 @@
     ViewData["Title"] = "Тварини";
 }
 <h1>Список тварин</h1>
+<a asp-action="Create" class="btn btn-success">Додати</a>
 <table class="table table-hover">
     <thead>
         <tr>
@@ -18,7 +19,7 @@
             <tr>
                 <th scope="row">@item.Id</th>
                 <td>@item.Name</td>
-                <td>@item.BirthDay</td>
+                <td>@item.BirthDay.ToLongDateString()</td>
                 <td>@item.Image</td>
             </tr>
         }
