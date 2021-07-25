@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using WebAppSite.Domain;
 using WebAppSite.Domain.Entities.Catalog;
@@ -91,6 +92,7 @@ namespace WebAppSite.Controllers
         [HttpPost]
         public IActionResult Delete(long id)
         {
+            Thread.Sleep(2000);
             var item =_context.Animals.SingleOrDefault(x => x.Id == id);
             if(item!=null)
             {
