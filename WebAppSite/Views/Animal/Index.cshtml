@@ -27,8 +27,16 @@
                          width="150"
                          alt="img" />
                </td>
-                <td>
-                    <a href="#"></a>
+                <td class="align-middle text-left" 
+                    style="font-size: 30px">
+                    
+                        <a href="#" class="text-danger text-decoration-none" 
+                           data-delete-animal data-id="@item.Id">
+                            <i class="fa fa-times" aria-hidden="true"></i>
+                        </a>
+                        <a href="#" class="text-primary text-decoration-none">
+                            <i class="fa fa-pencil-square-o" aria-hidden="true"></i>
+                        </a>
                 </td>
             </tr>
         }
@@ -36,3 +44,46 @@
         
     </tbody>
 </table>
+
+<div class="modal" tabindex="-1" id="modalDelete">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Видалення</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p>Ви дійсно бажаєте видалити запис?</p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Скасувати</button>
+                <button type="button" class="btn btn-primary" id="btnDeleteAnimal">Видалить</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    <script src="~/lib/axios/axios.min.js"></script>
+<script>
+    $(function () {
+        var deleteItem;
+        $("[data-delete-animal]").on("click", function (e) {
+            deleteItem = $(this).closest('a'); //елемент, який я видаляю
+            e.preventDefault();
+            $("#modalDelete").modal("show");
+            console.log(deleteItem.attr("data-id"));
+        });
+
+        $("#btnDeleteAnimal").on("click", function () {
+            var url = `/animal/delete/${deleteItem.attr("data-id")}`;
+            axios.post(url)
+                .then(function (result) {
+                    deleteItem.closest("tr").remove();
+                    $("#modalDelete").modal("hide");
+                    //console.log(result);
+                });
+        });
+    });
+</script>
+} 

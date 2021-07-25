@@ -88,5 +88,17 @@ namespace WebAppSite.Controllers
 
             return RedirectToAction("Index");
         }
+        [HttpPost]
+        public IActionResult Delete(long id)
+        {
+            var item =_context.Animals.SingleOrDefault(x => x.Id == id);
+            if(item!=null)
+            {
+                //_context.Remove(item);
+                _context.Animals.Remove(item);
+                _context.SaveChanges();
+            }    
+            return Ok();
+        }
     }
 }
