@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using System;
 using System.Collections.Generic;
 using System.Globalization;
+using System.IO;
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
@@ -71,16 +72,31 @@ namespace WebAppSite.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(AnimalCreateViewModel model)
+        public async Task<IActionResult> Create(AnimalCreateViewModel model)
         {
+
             if(!ModelState.IsValid)
                 return View(model);
+            string fileName = ""; 
+            if (model.Image!=null)
+            {
+                var ext = Path.GetExtension(model.Image.FileName);
+                fileName = Path.GetRandomFileName() + ext;
+                var dir = Path.Combine(Directory.GetCurrentDirectory(), "images");
+                
+                var filePath = Path.Combine(dir, fileName);
+
+                using (var stream = System.IO.File.Create(filePath))
+                {
+                    await model.Image.CopyToAsync(stream);
+                }
+            }
             DateTime dt = DateTime.Parse(model.BirthDay, new CultureInfo("uk-UA"));
             Animal animal = new Animal
             {
                 Name=model.Name,
                 DateBirth=dt,
-                Image=model.Image,
+                Image= fileName,
                 Price=model.Price,
                 DateCreate=DateTime.Now
             };
