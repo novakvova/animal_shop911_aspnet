@@ -12,9 +12,11 @@
     }
     else
     {
-        <li class="nav-item">
+        @*<li class="nav-item">
             <a class="nav-link" asp-area="" asp-controller="Account" asp-action="Profile">@User.Identity.Name</a>
-        </li>
+        </li>*@
+        @await Component.InvokeAsync("NavbarUser")
+
         <li class="nav-item">
             @using (Html.BeginForm("Logout", "Account", FormMethod.Post, new { id = "logoutForm" }))
             {

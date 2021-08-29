@@ -31,4 +31,10 @@ namespace WebAppSite.Models
         [Required(ErrorMessage = "Invalid password")]
         public string Password { get; set; }
     }
+
+    public class UserNavbarInfoViewModel
+    {
+        public string FullName { get; set; }
+        public string Image { get; set; }
+    }
 }
